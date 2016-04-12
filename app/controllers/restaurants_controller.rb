@@ -5,6 +5,7 @@ class RestaurantsController < ApplicationController
   end
 
   def new
+    @new_restaurant = Restaurant.new
   end
 
   def create
