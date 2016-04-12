@@ -11,7 +11,7 @@ feature 'restaurants' do
 
   context 'restaurants have been added' do
     before do
-      Restaurant.create(name: 'KFC')
+      Restaurant.create name: 'KFC'
     end
 
     scenario 'display restaurants' do
@@ -33,7 +33,7 @@ feature 'restaurants' do
   end
 
   context 'viewing restaurants' do
-    let!(:kfc) { Restaurant.create(name:'KFC') }
+    let!(:kfc) { Restaurant.create name:'KFC' }
 
     scenario 'lets a user view a restaurant' do
        visit '/restaurants'
@@ -57,7 +57,7 @@ feature 'restaurants' do
   end
 
   context "deleting restaurants" do
-    before { Restaurant.create name: 'KFC' }
+    let!(:kfc) { Restaurant.create name: 'KFC' }
 
     scenario 'removes the restaurant from the db' do
       visit '/restaurants'
