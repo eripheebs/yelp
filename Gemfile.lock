@@ -42,7 +42,11 @@ GEM
       debug_inspector (>= 0.0.1)
     builder (3.2.2)
     byebug (8.2.4)
+<<<<<<< HEAD
     capybara (2.6.2)
+=======
+    capybara (2.7.0)
+>>>>>>> 380217df2e386b49adf2872a6f0b6fbb27c59382
       addressable
       mime-types (>= 1.16)
       nokogiri (>= 1.3.3)
