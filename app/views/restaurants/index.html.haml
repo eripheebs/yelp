@@ -4,6 +4,21 @@
     = link_to "Edit #{resto.name}", edit_restaurant_path(resto)
     = link_to "Delete #{resto.name}", restaurant_path(resto), method: :delete
     = link_to "Review #{resto.name}", new_restaurant_review_path(resto)
+
+    %h3
+      Reviews for
+      = resto.name
+
+    - if resto.reviews.any?
+      %ul
+        - resto.reviews.each do |review|
+          %li
+            = review.thoughts
+            %strong= review.rating
+            \/5
+    - else
+      %p No reviews
+
 - else
   %h1 No restaurant yet
 
