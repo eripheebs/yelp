@@ -2,6 +2,7 @@
   - @restaurants.each do |resto|
     = link_to resto.name, restaurant_path(resto)
     = link_to "Edit #{resto.name}", edit_restaurant_path(resto)
+    = link_to "Delete #{resto.name}", restaurant_path(resto), method: :delete
 - else
   %h1 No restaurant yet
 
