@@ -1,1 +1,4 @@
-%h1 New page!
+= form_for Restaurant.new do |f|
+  = f.label :name
+  = f.text_field :name
+  = f.submit 'Create a restaurant'
