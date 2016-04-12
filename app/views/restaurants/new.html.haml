@@ -3,7 +3,7 @@
     %h2
       = pluralize @restaurant.errors.count, 'error'
       prohibited this restaurant from being saved:
-    %li
+    %ul
       - @restaurant.errors.full_messages do |message|
         %li= message
 
