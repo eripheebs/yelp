@@ -33,7 +33,6 @@ feature 'restaurants' do
   end
 
   context 'viewing restaurants' do
-
     let!(:kfc) { Restaurant.create(name:'KFC') }
 
     scenario 'lets a user view a restaurant' do
@@ -54,6 +53,17 @@ feature 'restaurants' do
       click_button 'Update Restaurant'
       expect(page).to have_content 'Chipotle'
       expect(current_path).to eq '/restaurants'
+    end
+  end
+
+  context "deleting restaurants" do
+    before { Restaurant.create name: 'KFC' }
+
+    scenario 'removes the restaurant from the db' do
+      visit '/restaurants'
+      click_link 'Delete KFC'
+      expect(page).not_to have_content 'KFC'
+      expect(page).to have_content 'Restaurant deleted successfully'
     end
   end
 end
