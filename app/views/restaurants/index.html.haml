@@ -3,6 +3,7 @@
     = link_to resto.name, restaurant_path(resto)
     = link_to "Edit #{resto.name}", edit_restaurant_path(resto)
     = link_to "Delete #{resto.name}", restaurant_path(resto), method: :delete
+    = link_to "Review #{resto.name}", new_restaurant_review_path(resto)
 - else
   %h1 No restaurant yet
 
