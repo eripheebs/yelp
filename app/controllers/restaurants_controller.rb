@@ -25,7 +25,8 @@ class RestaurantsController < ApplicationController
   end
 
   def edit
-    if user_is_owner?
+    @restaurant = Restaurant.find(params[:id])
+    unless current_user.has_created?(@restaurant)
       flash[:notice] = 'You cannot edit this restaurant'
       redirect_to restaurants_path
     end
@@ -38,7 +39,8 @@ class RestaurantsController < ApplicationController
   end
 
   def destroy
-    if user_is_owner?
+    @restaurant = Restaurant.find(params[:id])
+    unless current_user.has_created?(@restaurant)
       flash[:notice] = 'You cannot delete this restaurant'
     else
       @restaurant.destroy
@@ -49,11 +51,5 @@ class RestaurantsController < ApplicationController
 
   def restaurant_params
     params.require(:restaurant).permit(:name)
-  end
-
-  def user_is_owner?
-    @restaurant = Restaurant.find(params[:id])
-    @user = current_user
-    @user.id != @restaurant.user_id
   end
 end

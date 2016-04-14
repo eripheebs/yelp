@@ -21,4 +21,12 @@ class User < ActiveRecord::Base
       end
     end
   end
+
+  def has_reviewed?(restaurant)
+    reviewed_restaurants.include? restaurant
+  end
+
+  def has_created?(restaurant)
+    id == restaurant.user_id
+  end
 end

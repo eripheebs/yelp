@@ -2,7 +2,7 @@ require 'rails_helper'
 
 feature 'Reviewing' do
 
-  before do
+  before(:each) do
     sign_up_one
     add_kfc
   end
@@ -17,5 +17,12 @@ feature 'Reviewing' do
     leave_review
     expect(current_path).to eq restaurants_path
     expect(page).to have_content 'average'
+  end
+
+  scenario 'allows users to leave only one review per restaurant' do
+    leave_review
+    click_link 'Review KFC'
+    expect(current_path).to eq restaurants_path
+    expect(page).to have_content 'You cannot review a restaurant more than once'
   end
 end
