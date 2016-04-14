@@ -22,4 +22,10 @@ class ReviewsController < ApplicationController
     parameters[:user_id] = current_user.id
     parameters
   end
+
+  def destroy
+    @restaurant = Restaurant.find(params[:restaurant_id])
+    @restaurant.reviews.find(params[:id]).destroy
+    redirect_to restaurants_path
+  end
 end

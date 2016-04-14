@@ -11,7 +11,7 @@ describe User do
                 password_confirmation: '123456789')
   end
 
-  let(:restaurant) { double(:restaurant, user_id: 17 )}
+  let(:restaurant) { double(:restaurant, user_id: 18 )}
 
   describe '#has_created?' do
     it 'should return true if the user created a restaurant' do

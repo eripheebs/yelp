@@ -25,4 +25,10 @@ feature 'Reviewing' do
     expect(current_path).to eq restaurants_path
     expect(page).to have_content 'You cannot review a restaurant more than once'
   end
+
+  scenario 'allows users to delete their own reviews' do
+    leave_review
+    click_link 'Delete this review'
+    expect(page).not_to have_content 'average'
+  end
 end
