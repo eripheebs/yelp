@@ -24,8 +24,13 @@ class ReviewsController < ApplicationController
   end
 
   def destroy
-    @restaurant = Restaurant.find(params[:restaurant_id])
-    @restaurant.reviews.find(params[:id]).destroy
+    restaurant = Restaurant.find(params[:restaurant_id])
+    review = restaurant.reviews.find(params[:id])
+    unless current_user.id == review.user_id
+        flash[:notice] = 'You cannot delete others\' reviews'
+    else
+      review.destroy
+    end
     redirect_to restaurants_path
   end
 end

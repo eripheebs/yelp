@@ -31,4 +31,14 @@ feature 'Reviewing' do
     click_link 'Delete this review'
     expect(page).not_to have_content 'average'
   end
+
+  scenario 'does not allow users to delete other users\' reviews' do
+    leave_review
+    click_link 'Sign out'
+    sign_up_two
+    click_link 'Delete this review'
+    expect(current_path).to eq restaurants_path
+    expect(page).to have_content 'average'
+    expect(page).to have_content 'You cannot delete others\' reviews'
+  end
 end
