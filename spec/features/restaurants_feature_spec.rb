@@ -81,13 +81,24 @@ feature 'Restaurants' do
   end
 
   context 'deleting restaurants' do
-    before { Restaurant.create(name: 'KFC') }
+
+    before do
+      sign_up_one
+      add_kfc
+    end
 
     scenario 'removes a restaurant when a user clicks a delete link' do
-      sign_up_one
       click_link 'Delete KFC'
       expect(page).not_to have_content 'KFC'
       expect(page).to have_content 'Restaurant deleted successfully'
+    end
+
+    scenario 'does not allow a user to edit restaurants others have created' do
+      click_link 'Sign out'
+      sign_up_two
+      click_link 'Delete KFC'
+      expect(current_path).to eq restaurants_path
+      expect(page).to have_content 'You cannot delete this restaurant'
     end
   end
 
