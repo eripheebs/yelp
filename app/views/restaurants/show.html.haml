@@ -1,2 +1,11 @@
 = @restaurant.name
 = @restaurant.description
+
+- if @restaurant.reviews.empty?
+  %h1 No reviews yet!
+- else
+  - @restaurant.reviews.each do |review|
+    =review.Rating
+    =review.thoughts
+    -if review.user_id == @id
+      =link_to "Delete Review", review_path(review), method: :delete

@@ -8,8 +8,28 @@ class ReviewsController < ApplicationController
 
   def create
     @restaurant = Restaurant.find(params[:restaurant_id])
-    @review = @restaurant.reviews.create(review_params)
-    redirect_to restaurants_path
+    @review = @restaurant.build_review review_params, current_user
+    if @review.save
+      redirect_to restaurants_path
+    else
+      if @review.errors[:user]
+        redirect_to restaurants_path, notice: 'You have already reviewed this restaurant'
+      else
+        render :new
+      end
+    end
+  end
+
+  def destroy
+    @review = Review.find(params[:id])
+    if current_user.has_created_review?(@review)
+      @review.destroy
+      flash[:notice] = 'Review deleted successfully'
+      redirect_to '/restaurants'
+    else
+      flash[:notice] = 'That review does not belong to you'
+      redirect_to '/restaurants'
+    end
   end
 
   def review_params

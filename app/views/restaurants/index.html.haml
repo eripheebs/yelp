@@ -11,6 +11,8 @@
             =review.thoughts
             %strong= review.rating
             \/5
+            - if review.user_id == @id
+              =link_to "Delete Review", restaurant_review_path(rest, review), method: :delete
     - else
       %p No reviews
     =link_to "Edit #{rest.name}", edit_restaurant_path(rest)

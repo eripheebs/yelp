@@ -1,15 +1,10 @@
 require 'rails_helper'
 
 feature 'reviewing' do
-  let!(:kfc) { Restaurant.create name: 'KFC' }
 
   before do
-    visit '/'
-    click_link 'Sign up'
-    fill_in('Email', with: 'test@example.com')
-    fill_in('Password', with: 'testtest')
-    fill_in('Password confirmation', with: 'testtest')
-    click_button('Sign up')
+    sign_up
+    create_kfc
   end
 
   context 'writing a review' do
@@ -33,9 +28,31 @@ feature 'reviewing' do
       select '3', from: 'Rating'
       click_button 'Leave Review'
       click_link 'Delete KFC'
-      expect(kfc.reviews.empty?).to eq true
+      expect(Review.all).to be_empty
     end
 
+    scenario 'user can delete review they wrote' do
+      visit '/restaurants'
+      click_link 'Review KFC'
+      fill_in 'Thoughts', with: "so so"
+      select '3', from: 'Rating'
+      click_button 'Leave Review'
+      click_link 'Delete Review'
+      expect(Review.all).to be_empty
+      expect(page).to have_content 'Review deleted successfully'
+    end
+
+    scenario 'other users cant delete review' do
+      visit '/restaurants'
+      click_link 'Review KFC'
+      fill_in 'Thoughts', with: "so so"
+      select '3', from: 'Rating'
+      click_button 'Leave Review'
+      click_link 'Sign out'
+      sign_up_2
+      visit '/restaurants'
+      expect(page).not_to have_content 'Delete Review'
+    end
   end
 
 end

@@ -63,7 +63,12 @@ feature 'restaurants' do
   end
 
   context 'editing restaurants' do
-    let!(:kfc) { Restaurant.create(name:'KFC') }
+    before do
+      visit '/restaurants'
+      click_link 'Add a restaurant'
+      fill_in 'Name', with: 'KFC'
+      click_button 'Create Restaurant'
+    end
 
     scenario 'let a user edit a restaurant' do
       visit '/restaurants'
@@ -76,15 +81,35 @@ feature 'restaurants' do
   end
 
   context 'deleting restaurants' do
-    let!(:kfc) { Restaurant.create(name:'KFC') }
+    before do
+      visit '/restaurants'
+      click_link 'Add a restaurant'
+      fill_in 'Name', with: 'KFC'
+      click_button 'Create Restaurant'
+    end
 
     scenario 'removes a restaurant when a user clicks a delete link' do
       visit '/restaurants'
       click_link 'Delete KFC'
-      expect(page).not_to have_content 'KFC'
       expect(page).to have_content 'Restaurant deleted successfully'
+      visit '/restaurants'
+      expect(page).not_to have_content 'KFC'
     end
 
+    scenario 'user can only delete a restaurant they created' do
+      click_link 'Sign out'
+      visit '/'
+      click_link 'Sign up'
+      fill_in('Email', with: 'best@example.com')
+      fill_in('Password', with: 'testtest')
+      fill_in('Password confirmation', with: 'testtest')
+      click_button('Sign up')
+      visit '/restaurants'
+      click_link 'Delete KFC'
+      expect(page).not_to have_content 'Restaurant deleted successfully'
+      visit '/restaurants'
+      expect(page).to have_content 'KFC'
+    end
   end
 
 end
