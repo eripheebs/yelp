@@ -16,7 +16,7 @@ feature 'User can sign in and out' do
 
   context 'User signed in and on homepage' do
     before do
-      sign_up
+      sign_up_one
     end
 
     it 'should see a sign-out link' do

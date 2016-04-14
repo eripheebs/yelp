@@ -23,10 +23,8 @@ feature 'Restaurants' do
 
   context 'creating restaurants' do
     scenario 'prompts a user to fill out a form, then displays the new restaurant' do
-      sign_up
-      click_link 'Add a restaurant'
-      fill_in 'Name', with: 'KFC'
-      click_button 'Create a restaurant'
+      sign_up_one
+      add_restaurant
       expect(page).to have_content 'KFC'
       expect(current_path).to eq restaurants_path
     end
@@ -39,10 +37,8 @@ feature 'Restaurants' do
 
     context 'an invalid restaurant' do
       scenario 'does not allow a user to submit a name that is too short' do
-        sign_up
-        click_link 'Add a restaurant'
-        fill_in 'Name', with: 'kf'
-        click_button 'Create a restaurant'
+        sign_up_one
+        add_invalid_restaurant
         expect(page).not_to have_css 'h2', text: 'kf'
         expect(page).to have_content 'error'
       end
@@ -64,12 +60,20 @@ feature 'Restaurants' do
     before { Restaurant.create(name: 'KFC') }
 
     scenario 'lets a user to edit a restaurant' do
-      sign_up
+      sign_up_one
       click_link 'Edit KFC'
       fill_in 'Name', with: 'Kentucky Fried Chicken'
       click_button 'Update'
       expect(page).to have_content('Kentucky Fried Chicken')
       expect(current_path).to eq restaurants_path
+    end
+
+    scenario 'does not allow a user to edit restaurants others have created' do
+      sign_up_one
+      add_restaurant
+      click_link 'Sign out'
+      sign_up_two
+      expect(page).not_to have_link 'Edit KFC'
     end
   end
 
@@ -77,7 +81,7 @@ feature 'Restaurants' do
     before { Restaurant.create(name: 'KFC') }
 
     scenario 'removes a restaurant when a user clicks a delete link' do
-      sign_up
+      sign_up_one
       click_link 'Delete KFC'
       expect(page).not_to have_content 'KFC'
       expect(page).to have_content 'Restaurant deleted successfully'

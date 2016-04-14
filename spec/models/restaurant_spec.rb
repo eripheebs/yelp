@@ -1,8 +1,8 @@
 require 'rails_helper'
-require 'spec_helper'
 
 describe Restaurant, type: :model do
   it { is_expected.to have_many :reviews }
+  it { is_expected.to belong_to :user}
 
   it 'is not valid with a name less that three characters' do
     resto = Restaurant.create(name: 'kf')
