@@ -24,7 +24,7 @@ feature 'Restaurants' do
   context 'creating restaurants' do
     scenario 'prompts a user to fill out a form, then displays the new restaurant' do
       sign_up_one
-      add_restaurant
+      add_kfc
       expect(page).to have_content 'KFC'
       expect(current_path).to eq restaurants_path
     end
@@ -57,10 +57,13 @@ feature 'Restaurants' do
   end
 
   context 'editing restautarants' do
-    before { Restaurant.create(name: 'KFC') }
+
+    before do
+      sign_up_one
+      add_kfc
+    end
 
     scenario 'lets a user to edit a restaurant' do
-      sign_up_one
       click_link 'Edit KFC'
       fill_in 'Name', with: 'Kentucky Fried Chicken'
       click_button 'Update'
@@ -69,11 +72,11 @@ feature 'Restaurants' do
     end
 
     scenario 'does not allow a user to edit restaurants others have created' do
-      sign_up_one
-      add_restaurant
       click_link 'Sign out'
       sign_up_two
-      expect(page).not_to have_link 'Edit KFC'
+      click_link 'Edit KFC'
+      expect(current_path).to eq restaurants_path
+      expect(page).to have_content 'You cannot edit this restaurant'
     end
   end
 
