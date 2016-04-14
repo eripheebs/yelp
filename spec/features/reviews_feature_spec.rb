@@ -2,15 +2,19 @@ require 'rails_helper'
 
 feature 'Reviewing' do
 
-  before { Restaurant.create(name: 'KFC') }
+  before do
+    sign_up_one
+    add_kfc
+  end
+
+  scenario 'does not allow users to leave a review unless signed in' do
+    click_link 'Sign out'
+    click_link 'Review KFC'
+    expect(page).not_to have_field 'Thoughts'
+  end
 
   scenario 'allows users to leave a review using a form' do
-    visit restaurants_path
-    click_link 'Review KFC'
-    fill_in 'Thoughts', with: 'average'
-    select '3', from: 'Rating'
-    click_button 'Leave a review'
-
+    leave_review
     expect(current_path).to eq restaurants_path
     expect(page).to have_content 'average'
   end

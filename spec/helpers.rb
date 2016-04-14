@@ -33,3 +33,11 @@ def add_invalid_restaurant
   fill_in 'Name', with: 'kf'
   click_button 'Create a restaurant'
 end
+
+def leave_review
+  visit restaurants_path
+  click_link 'Review KFC'
+  fill_in 'Thoughts', with: 'average'
+  select '3', from: 'Rating'
+  click_button 'Leave a review'
+end
