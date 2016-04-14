@@ -55,4 +55,12 @@ feature 'reviewing' do
     end
   end
 
+  context 'display averge rating only' do
+    scenario 'it should only display the average rating' do
+      leave_review("So SO", '3')
+      leave_review("tada", '5')
+      expect(page).to have_content('Average rating: 4')
+    end
+  end
+
 end
