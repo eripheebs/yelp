@@ -35,4 +35,14 @@ feature "User can sign in and out" do
       expect(page).not_to have_link 'Sign up'
     end
   end
+
+  context "user not loggged in" do
+    let!(:kfc) { Restaurant.create name: 'KFC' }
+
+    it "should not be able to leave review unless logged in" do
+      visit '/'
+      click_link 'Review KFC'
+      expect(page).to have_content "Log in"
+    end
+  end
 end
