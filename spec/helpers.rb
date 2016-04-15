@@ -22,6 +22,12 @@ def add_kfc
   click_button 'Create a restaurant'
 end
 
+def add_kfc_with_photo
+  click_link 'Add a restaurant'
+  fill_in 'Name', with: 'KFC'
+  click_button 'Create a restaurant'
+end
+
 def add_nandos
   click_link 'Add a restaurant'
   fill_in 'Name', with: 'Nando\'s'

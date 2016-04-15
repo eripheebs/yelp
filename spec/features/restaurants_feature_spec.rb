@@ -43,6 +43,13 @@ feature 'Restaurants' do
         expect(page).to have_content 'error'
       end
     end
+
+    context 'adding a photo' do
+      scenario 'user should be able to upload a photo' do
+        sign_up_one
+        
+      end
+    end
   end
 
   context 'viewing restaurants' do

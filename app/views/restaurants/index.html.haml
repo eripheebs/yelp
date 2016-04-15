@@ -9,6 +9,7 @@
     %h3
       Reviews for
       = resto.name
+      = image_tag resto.image.url(:thumb)
 
     - if resto.reviews.any?
       %ul
